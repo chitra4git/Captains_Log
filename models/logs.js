@@ -12,11 +12,12 @@ const mongoose = require ('mongoose');
 
 
 const logsSchema = new mongoose.Schema({
-    name: { type: String, require: true},
-    image: { type: String, require: true},
+    title: { type: String, require: true},
+    entry: { type: String, require: true},
+    shipIsBroken: Boolean
 
 })
 
-const Logs = mongoose.model('logs', logsSchema)
+const Logs = mongoose.model('Logs', logsSchema)
 
 module.exports = Logs;

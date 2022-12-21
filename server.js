@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const router = express.Router();
 const Logs = require('./models/logs')
-const New = require('./views/New')
+
 
 
 //middleware
@@ -32,11 +32,42 @@ mongoose.connection.once("open", () => {
 
 const ships = ['ship1','ship2','ship3']
 
-app.get('/ships',(req, res)=>{
-
-    res.send(ships)
+app.get('/logs',(req, res)=>{
+Logs.find({},(error, allLogs) =>{
+    res.render('Index', {
+        logs: allLogs,
+    })
+})
 })
 
+//New Route
+
+app.get('/logs/new',(req,res)=>{
+    res.render('New');
+});
+
+//Create Route
+app.post('/logs',(req, res) =>{
+    if(req.body.shipIsBroken === "on") {
+        req.body.shipIsBroken = true;
+    } else {
+        req.body.shipIsBroken = false;
+    }
+
+    Logs.create(req.body,(error, createdLog) =>{
+        res.redirect('/logs');
+    });
+})
+
+//Show Route
+
+app.get("/logs/:id", (req, res) => {
+    Logs.findById(req.params.id, (err, foundLog) =>{
+        res.render('Show', {
+            log: foundLog
+        })
+    })
+})
 
 
 
