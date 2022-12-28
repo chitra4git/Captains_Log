@@ -100,7 +100,14 @@ app.put('/logs/:id', (req, res) => {
     })
 })
 
+//Delete Route
 
+app.delete('/logs/:id', (req, res) =>{
+    Logs.findByIdAndRemove(req.params.id, (err, deletedLog)=>{
+        res.redirect('/logs')
+    })
+
+})
 
 
 app.listen(8000,()=> {
